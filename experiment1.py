@@ -99,7 +99,7 @@ def train(total_epoch=100, pth_path="", load_data=load_original_data, lr=0.01, p
     for epoch in range(total_epoch):
         total_loss = 0
         for i, batch in enumerate(tqdm(train_data_loader, desc=F"Training Epoch{epoch}")):
-            inputs, targets = [x.to(device) for x in batch]
+            inputs, targets = [x for x in batch]
             outputs = model(inputs)
             if print_log:
                 print("===================================outputs=======================================")
