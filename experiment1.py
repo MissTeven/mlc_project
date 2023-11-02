@@ -59,7 +59,7 @@ def collate_fn(examples):
     return inputs, targets
 
 
-def train(total_epoch=100, pth_path="", load_data=load_original_data, lr=0.01, print_log=True,
+def train(total_epoch=100, pth_path="", load_data=load_original_data, lr=0.01, print_log=False,
           is_decline_lr=False):
     device = global_config.device
     train_data, validate_data = load_data()
@@ -72,7 +72,7 @@ def train(total_epoch=100, pth_path="", load_data=load_original_data, lr=0.01, p
     validate_data_loader = DataLoader(dataset=validate_dataset, shuffle=True, collate_fn=collate_fn,
                                       batch_size=global_config.batch_size)
     model = ClassifyModel(class_num=global_config.class_num)
-    loss_fun = nn.CrossEntropyLoss().cuda()
+    loss_fun = nn.CrossEntropyLoss()
     best_params = None
     best_evaluate_loss = None
     evaluate_losses = None
