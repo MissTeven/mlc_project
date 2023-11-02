@@ -17,7 +17,7 @@ class Experiment1Config:
     def __init__(self):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.pretrained_bert_path = "pretrained_models/nezha-cn-base"
-        self.tokenizer = Tokenizer(pretrained_bert_path=self.pretrained_bert_path, device=self.device)
+        self.tokenizer = Tokenizer(device=self.device, pretrained_bert_path=self.pretrained_bert_path)
         self.batch_size = 120
         self.class_num = 17
 
@@ -106,6 +106,9 @@ def train(total_epoch=100, pth_path="", load_data=load_original_data, lr=0.01, p
                 print(outputs)
                 print("===================================targets=======================================")
                 print(targets)
+
+            outputs.to(device)
+            targets.to(device)
             loss = loss_fun(outputs, targets)
             optimizer.zero_grad()
             loss.backward()
@@ -117,8 +120,10 @@ def train(total_epoch=100, pth_path="", load_data=load_original_data, lr=0.01, p
         evaluate_loss = 0
         average_loss = None
         for i, batch in enumerate(validate_data_loader):
-            inputs, targets = [x.to(device) for x in batch]
+            inputs, targets = [x for x in batch]
             outputs = model(inputs)
+            outputs.to(device)
+            targets.to(device)
             loss = loss_fun(outputs, targets)
             evaluate_loss += loss.item()
             average_loss = evaluate_loss / (i + 1)

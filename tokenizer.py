@@ -5,8 +5,7 @@ from torch.autograd import Variable
 
 
 class Tokenizer:
-    def __init__(self, pretrained_bert_path="pretrained_models/nezha-cn-base",
-                 device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')):
+    def __init__(self, device, pretrained_bert_path="pretrained_models/nezha-cn-base"):
         self.tokenizer = BertTokenizer.from_pretrained(pretrained_bert_path)
         self.device = device
 
@@ -42,7 +41,7 @@ class Tokenizer:
 
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    tokenizer = Tokenizer()
+    tokenizer = Tokenizer(device)
     res = tokenizer.to_tensor(["快被遗忘的女演员，嫁给所有人的男神，生俩闺女日子过成这样！"])
     print("-----res----")
     print(res)

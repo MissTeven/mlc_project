@@ -31,7 +31,7 @@ class ClassifyModel(nn.Module):
 
 def test_cute_bert_model():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    tokenizer = Tokenizer()
+    tokenizer = Tokenizer(device)
     res = tokenizer.to_tensor(["快被遗忘的女演员，嫁给所有人的男神，生俩闺女日子过成这样！", "如何解读蚂蚁金服首季亏损？"])
     input_var0 = res[0].to(device)
     input_var0 = Variable(input_var0)
