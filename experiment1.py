@@ -61,7 +61,7 @@ def collate_fn(examples):
 
 def train(total_epoch=100, pth_path="", load_data=load_original_data, lr=0.01, print_log=True,
           is_decline_lr=False):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = global_config.device
     train_data, validate_data = load_data()
 
     train_dataset = SingleLabelDataset(train_data)
@@ -99,7 +99,7 @@ def train(total_epoch=100, pth_path="", load_data=load_original_data, lr=0.01, p
     for epoch in range(total_epoch):
         total_loss = 0
         for i, batch in enumerate(tqdm(train_data_loader, desc=F"Training Epoch{epoch}")):
-            inputs, targets = [x for x in batch]
+            inputs, targets = [x.to(device) for x in batch]
             outputs = model(inputs)
             if print_log:
                 print("===================================outputs=======================================")
